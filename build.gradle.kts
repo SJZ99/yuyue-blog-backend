@@ -30,7 +30,9 @@ dependencies {
     implementation("junit:junit:4.13.2")
 	implementation("mysql:mysql-connector-java:8.0.28")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.6.3")
-
+	implementation("org.springframework.boot:spring-boot-starter-security:2.6.3")
+	implementation("org.springframework.security:spring-security-oauth2-client:5.6.1")
+	implementation("org.springframework.security:spring-security-oauth2-jose:5.6.1")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 

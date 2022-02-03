@@ -2,8 +2,6 @@ package com.api.yuyue
 
 import com.api.yuyue.model.entity.Entity_Language
 import com.api.yuyue.model.entity.Entity_Literature
-import com.api.yuyue.model.entity.Entity_Program
-import com.api.yuyue.model.repository.Repository_Program
 import com.api.yuyue.service.Service_Program
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -11,16 +9,17 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.client.postForEntity
+import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
+import java.net.http.HttpClient
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
-import javax.print.attribute.standard.MediaSize
+import javax.net.ssl.SSLContext
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(classes = [YuyueApplication::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
