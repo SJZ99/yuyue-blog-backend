@@ -43,21 +43,9 @@ class Controller_Literature(val literatureService : Service_Literature,
         return literatureService.getArticleById(id)
     }
 
-    @PostMapping("/add_article")
-    fun addArticle(
-        @RequestBody article : Entity_Literature
-    ) {
-        literatureService.saveArticle(article)
-    }
-
     @GetMapping("/img/{fileName}")
     fun getImg(@PathVariable("fileName") fileName : String) : ByteArray {
         return imgService.getImg("literature", fileName)
     }
 
-    @PostMapping("/add_img")
-    fun addImg(@RequestParam("img") img : MultipartFile) {
-        val saveActionResult = imgService.saveImg("literature", img)
-        saveActionResult ?: throw ParameterInvalidException("The uploaded img is empty")
-    }
 }

@@ -8,15 +8,15 @@ import javax.persistence.*
 class Entity_Series (
 
     @Id
-    var id : Int,
+    var id : Int? = null,
 
     @Column(length = 90)
     var topic : String,
 
-    var amount : Int,
+    var amount : Int = 0,
 
     @Column(columnDefinition = "TINYTEXT")
-    var img : String
+    var img : String = "",
 )
 
 @Entity
@@ -25,7 +25,7 @@ class Entity_Literature (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id : Int,
+    var id : Int? = null,
 
     @Column(length = 90)
     var series : String,
@@ -39,10 +39,12 @@ class Entity_Literature (
     @Column(columnDefinition = "TINYTEXT") //256 byte -> 85個中文字
     var preface : String,
 
-    var updateOn : LocalDate,
+    var updateOn : LocalDate = LocalDate.now(),
 
     @Column(columnDefinition = "TINYTEXT")
-    var img : String
+    var img : String = "",
+
+    var publish: Boolean = false,
 )
 
 interface Entity_Literature_Preview {

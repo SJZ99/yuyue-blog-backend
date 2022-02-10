@@ -31,7 +31,6 @@ dependencies {
 	implementation("mysql:mysql-connector-java:8.0.28")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.6.3")
 	implementation("org.springframework.boot:spring-boot-starter-security:2.6.3")
-//	implementation("org.springframework.security:spring-security-oauth2-client:5.6.1")
 	implementation("org.springframework.security:spring-security-oauth2-jose:5.6.1")
 	implementation("org.springframework.security:spring-security-oauth2-resource-server:5.6.1")
 	implementation("org.springframework.security:spring-security-jwt:1.1.1.RELEASE")

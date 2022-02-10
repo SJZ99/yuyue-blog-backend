@@ -39,22 +39,8 @@ class Controller_Program(val programService : Service_Program,
         return programService.getArticleById(id)
     }
 
-    @PostMapping("/add_article")
-    fun addArticle(
-        @RequestBody article : Entity_Program
-    ) {
-        programService.saveArticle(article)
-    }
-
     @GetMapping("/img/{fileName}")
     fun getImg(@PathVariable("fileName") fileName : String) : ByteArray {
         return imgService.getImg("program", fileName)
     }
-
-    @PostMapping("/add_img")
-    fun addImg(@RequestPart("img") img : MultipartFile) {
-        val saveActionResult = imgService.saveImg("program", img)
-        saveActionResult ?: throw ParameterInvalidException("The uploaded img is empty")
-    }
-
 }

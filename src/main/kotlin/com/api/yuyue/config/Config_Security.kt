@@ -27,7 +27,7 @@ class Config_Security(
             .sessionManagement().enableSessionUrlRewriting(false)
             .and()
             .authorizeRequests()
-            .antMatchers("/manage/**").hasAnyAuthority("user")//.hasAuthority("user")
+            .antMatchers("/manage/**", "/writer/**").hasAnyAuthority("manager")
             .anyRequest().permitAll()
             .and()
             .oauth2ResourceServer()

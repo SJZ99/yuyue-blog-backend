@@ -40,18 +40,32 @@ class Service_Literature (
 
     fun saveArticle(article : Entity_Literature) {
         literatureRepository.save(article)
+
+        val series = article.series
+        val seriesEntity = seriesRepository.findBySeries(series)
+        if(seriesEntity == null) {
+            seriesRepository.save(Entity_Series(topic = series, amount = 1))
+        }else {
+            seriesEntity.amount += 1
+            seriesRepository.save(seriesEntity)
+        }
     }
 
+    /**
+     * Must provide id
+     */
     fun updateArticle(article : Entity_Literature) {
-        val entity : Entity_Literature = literatureRepository.getById(article.id)
+        article.id?.let {
+            val entity : Entity_Literature = literatureRepository.getById(it)
 
-        entity.content = article.content
-        entity.img = article.img
-        entity.series = article.series
-        entity.preface = article.preface
-        entity.title = article.title
-        entity.updateOn = article.updateOn
+            entity.content = article.content
+            entity.img = article.img
+            entity.series = article.series
+            entity.preface = article.preface
+            entity.title = article.title
+            entity.updateOn = article.updateOn
 
-        literatureRepository.save(entity)
+            literatureRepository.save(entity)
+        }
     }
 }

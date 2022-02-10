@@ -36,6 +36,10 @@ class Service_Image {
     }
 
     fun getImg(subfolder : String, fileName : String) : ByteArray {
+        if(fileName.isEmpty()) {
+            return byteArrayOf()
+        }
+
         val completePath = root.resolve("$subfolder//$fileName")
 
         return if (completePath.exists() && completePath.isReadable()) {

@@ -20,24 +20,6 @@ import java.security.Principal
 @RequestMapping("/manage")
 class Controller_Manage {
 
-    @Autowired
-    lateinit var userService : Service_User
-
-//    @GetMapping("/login")
-//    fun login() : Any? {
-//        val user = SecurityContextHolder.getContext().authentication.principal
-//        val auth = user as? OAuth2User
-//        val name = auth?.getAttribute<String>("name")
-//        val email = auth?.getAttribute<String>("email")
-//
-//
-//        return if(name != null && email != null) {
-//            userService.tryGetUser(name, email)
-//        } else {
-//            null
-//        }
-//    }
-
     @GetMapping("/test")
     fun test() : Any {
         val con: SecurityContext = SecurityContextHolder.getContext()

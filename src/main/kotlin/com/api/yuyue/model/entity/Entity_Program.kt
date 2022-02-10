@@ -12,7 +12,7 @@ class Entity_Language (
     val language : String,
 
     @Column(length = 1500)
-    var description : String
+    var description : String = ""
 )
 
 @Entity
@@ -21,27 +21,29 @@ class Entity_Program (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id : Int,
+    var id : Int? = null,
 
     @Column(length = 60)
-    var lang : String?,
+    var lang : String,
 
     @Column(length = 90)
-    var title : String?,
+    var title : String,
 
     @Column(columnDefinition = "TEXT") //64KB -> 21333個中文字
-    var content : String?,
+    var content : String,
 
     @Column(columnDefinition = "TINYTEXT") //256 byte -> 85個中文字
-    var preface : String?,
+    var preface : String,
 
-    var updateOn : LocalDate?,
+    var updateOn : LocalDate = LocalDate.now(),
 
     @ElementCollection(fetch = FetchType.EAGER)
-    var tags : List<String>?,
+    var tags : List<String> = listOf(),
 
     @Column(columnDefinition = "TINYTEXT")
-    var img : String?
+    var img : String?,
+
+    var publish: Boolean = false,
 )
 
 interface Entity_Program_Preview {
