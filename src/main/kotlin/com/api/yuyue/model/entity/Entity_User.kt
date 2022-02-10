@@ -7,10 +7,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "t_user")
 class Entity_User(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id : Long = 0,
 
+    @Id
     @Column(length = 90)
     var email : String,
 
@@ -18,8 +16,8 @@ class Entity_User(
     @Column(length = 50)
     var name : String,
 
-    @Column(length = 30)
-    var role : String = "User"
+    @Transient
+    var roles : List<String> = mutableListOf("user")
 
 ) : OAuth2User {
 
@@ -33,15 +31,15 @@ class Entity_User(
 
     override fun getAttributes(): MutableMap<String, Any> {
         val map = mutableMapOf<String, Any>()
-        map["id"] = id
         map["email"] = email
         map["name"] = name
-        map["role"] = role
 
         return map
     }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return mutableSetOf( GrantedAuthority { role } )
+        return roles.map {
+                value -> GrantedAuthority { value }
+        }.toMutableList()
     }
 }

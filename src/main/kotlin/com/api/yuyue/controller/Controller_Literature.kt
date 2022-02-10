@@ -6,8 +6,12 @@ import com.api.yuyue.model.entity.Entity_Series
 import com.api.yuyue.model.exception.ParameterInvalidException
 import com.api.yuyue.service.Service_Image
 import com.api.yuyue.service.Service_Literature
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContext
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+
 
 @RestController
 @RequestMapping("/literature")
@@ -18,6 +22,11 @@ class Controller_Literature(val literatureService : Service_Literature,
     @GetMapping("/series")
     fun getAllSeries() : List<Entity_Series> {
         return literatureService.getAllSeries()
+    }
+
+    @GetMapping("/previews")
+    fun getAllPreviews() : List<Entity_Literature_Preview> {
+        return literatureService.getAllPreviews()
     }
 
     @GetMapping("/previews/{seriesId}")

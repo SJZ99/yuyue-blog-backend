@@ -20,6 +20,11 @@ class Controller_Program(val programService : Service_Program,
         return programService.getAllLanguages()
     }
 
+    @GetMapping("/previews")
+    fun getAllPreviews() : List<Entity_Program_Preview> {
+        return programService.getAllPreviews()
+    }
+
     @GetMapping("/previews/{lang}")
     fun getPreview(
         @PathVariable("lang") lang : String

@@ -15,4 +15,7 @@ interface Repository_Literature : JpaRepository<Entity_Literature, Int> {
 
     @Query(value = "select el from Entity_Literature el where el.id = ?1")
     fun findPreviewBySeries(id : Int) : List<Entity_Literature_Preview>
+
+    @Query(value = "select el from Entity_Literature el")
+    fun findAllPreviews() : List<Entity_Literature_Preview>
 }

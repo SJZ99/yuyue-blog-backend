@@ -22,6 +22,10 @@ class Service_Literature (
         return seriesRepository.findAll()
     }
 
+    fun getAllPreviews() : List<Entity_Literature_Preview> {
+        return literatureRepository.findAllPreviews()
+    }
+
     fun getPreviews(id : Int) : List<Entity_Literature_Preview>{
         return literatureRepository.findPreviewBySeries(id)
     }

@@ -40,6 +40,10 @@ class Service_Program(
         return languageRepository.findAll()
     }
 
+    fun getAllPreviews() : List<Entity_Program_Preview> {
+        return programRepository.findAllPreviews()
+    }
+
     fun getPreviews(lang : String) : List<Entity_Program_Preview> {
         return programRepository.findPreviewByLanguage(lang)
     }

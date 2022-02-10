@@ -15,4 +15,7 @@ interface Repository_Program : JpaRepository<Entity_Program, Int> {
 
     @Query(value = "select ep from Entity_Program ep where ep.lang = ?1")
     fun findPreviewByLanguage(lang : String) : List<Entity_Program_Preview>
+
+    @Query(value = "select ep from Entity_Program ep")
+    fun findAllPreviews() : List<Entity_Program_Preview>
 }

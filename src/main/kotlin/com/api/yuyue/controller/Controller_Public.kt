@@ -15,18 +15,18 @@ class Controller_Public {
     @Autowired
     lateinit var userService : Service_User
 
-    @GetMapping("/me")
-    fun test() : Any? {
-        val user = SecurityContextHolder.getContext().authentication.principal
-        val auth = user as? OAuth2User
-        val name = auth?.getAttribute<String>("name")
-        val email = auth?.getAttribute<String>("email")
-
-
-        return if(name != null && email != null) {
-            userService.tryGetUser(name, email)
-        } else {
-            return null
-        }
-    }
+//    @GetMapping("/me")
+//    fun test() : Any? {
+//        val user = SecurityContextHolder.getContext().authentication.principal
+//        val auth = user as? OAuth2User
+//        val name = auth?.getAttribute<String>("name")
+//        val email = auth?.getAttribute<String>("email")
+//
+//
+//        return if(name != null && email != null) {
+//            userService.tryGetUser(name, email)
+//        } else {
+//            return null
+//        }
+//    }
 }
