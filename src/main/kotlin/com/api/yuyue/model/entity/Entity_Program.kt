@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "t_lang")
-class Entity_Language (
+class EntityLanguage (
 
     @Id
     @Column(length = 60)
@@ -17,7 +17,7 @@ class Entity_Language (
 
 @Entity
 @Table(name = "t_program")
-class Entity_Program (
+class EntityProgram (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ class Entity_Program (
     var updateOn : LocalDate = LocalDate.now(),
 
     @ElementCollection(fetch = FetchType.EAGER)
-    var tags : List<String> = listOf(),
+    var tags : Set<String> = setOf(),
 
     @Column(columnDefinition = "TINYTEXT")
     var img : String?,
@@ -46,7 +46,7 @@ class Entity_Program (
     var publish: Boolean = false,
 )
 
-interface Entity_Program_Preview {
+interface EntityProgramPreview {
     val id : Int?
     val img : String
     val title :String

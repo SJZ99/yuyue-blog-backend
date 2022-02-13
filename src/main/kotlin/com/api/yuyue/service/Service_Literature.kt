@@ -1,50 +1,119 @@
 package com.api.yuyue.service
 
+import com.api.yuyue.model.dto.DtoNewArticle
+import com.api.yuyue.model.dto.DtoUpdateArticle
+import com.api.yuyue.model.entity.EntityLiterature
+import com.api.yuyue.model.entity.EntityLiteraturePreview
+import com.api.yuyue.model.entity.EntitySeries
 import com.api.yuyue.model.exception.NotFoundException
-import com.api.yuyue.model.entity.Entity_Literature
-import com.api.yuyue.model.entity.Entity_Literature_Preview
-import com.api.yuyue.model.entity.Entity_Program
-import com.api.yuyue.model.entity.Entity_Series
-import com.api.yuyue.model.repository.Repository_Literature
-import com.api.yuyue.model.repository.Repository_Series
+import com.api.yuyue.model.exception.ParameterInvalidException
+import com.api.yuyue.model.repository.RepositoryLiterature
+import com.api.yuyue.model.repository.RepositorySeries
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.springframework.stereotype.Service
 
 @Service
-class Service_Literature (
-    private val seriesRepository : Repository_Series,
-    private val literatureRepository : Repository_Literature
+class ServiceLiterature (
+    private val seriesRepository : RepositorySeries,
+    private val literatureRepository : RepositoryLiterature
 ) {
     companion object {
         private const val notFoundMessage : String = "Literature Article Not Found"
     }
 
-    fun getAllSeries() : List<Entity_Series> {
+    data class PartialEntity(
+        val title: String,
+        val preface: String,
+        val content: String,
+    )
+
+    private fun analysisDom(html: String): PartialEntity {
+
+        val doc: Document = Jsoup.parse(html)
+        val title = doc.getElementsByTag("h1").first()?.text()
+            ?: doc.getElementsByTag("h2").first()?.text()
+            ?: throw ParameterInvalidException("Article's title not found, check the article has <h1> or <h2>")
+
+        val preface = doc.getElementsByTag("preface").first()?.text() ?: ""
+
+        val content = html
+            .replace("<h1>$title</h1>", "", true)
+            .replace("<h2>$title</h2>", "", true)
+            .replace("<preface>$preface</preface>", "", true)
+
+        return PartialEntity(
+            title = title,
+            preface = preface,
+            content = content,
+        )
+    }
+
+    fun dtoToEntity(dto: DtoNewArticle): EntityLiterature {
+        val (fullContent, subtype, imgName) = dto
+        val (title, preface, content) = analysisDom(fullContent)
+
+        return EntityLiterature(
+            series = subtype,
+            title = title,
+            preface = preface,
+            content = content,
+            img = imgName
+        )
+    }
+
+    fun dtoToEntity(dto: DtoUpdateArticle): EntityLiterature? {
+        val ( id: Int, fullContent: String?, img: String?) = dto
+        var partialEntity: ServiceLiterature.PartialEntity? = null
+
+        if(fullContent == null && img == null) return null
+
+        if(fullContent != null) partialEntity = analysisDom(fullContent)
+
+        return EntityLiterature(
+            id = id,
+            series = "",
+            title = partialEntity?.title ?: "",
+            content = partialEntity?.content ?: "",
+            preface = partialEntity?.preface ?: "",
+            img = img
+        )
+    }
+
+    fun publish(id: Int) {
+        val entity = literatureRepository.findById(id)
+        if(entity.isPresent) {
+            literatureRepository.publish(id)
+        }
+    }
+
+    fun getAllSeries() : List<EntitySeries> {
         return seriesRepository.findAll()
     }
 
-    fun getAllPreviews() : List<Entity_Literature_Preview> {
+    fun getAllPreviews() : List<EntityLiteraturePreview> {
         return literatureRepository.findAllPreviews()
     }
 
-    fun getPreviews(id : Int) : List<Entity_Literature_Preview>{
+    fun getPreviews(id : Int) : List<EntityLiteraturePreview>{
         return literatureRepository.findPreviewBySeries(id)
     }
 
-    fun getArticleByTitle(title : String) : Entity_Literature {
+    fun getArticleByTitle(title : String) : EntityLiterature {
         return literatureRepository.findByTitle(title) ?: throw NotFoundException(notFoundMessage)
     }
 
-    fun getArticleById(id : Int) : Entity_Literature {
+    fun getArticleById(id : Int) : EntityLiterature {
         return literatureRepository.findById(id).orElseThrow { NotFoundException(notFoundMessage) }
     }
 
-    fun saveArticle(article : Entity_Literature) {
+    fun saveArticle(article : EntityLiterature) {
         literatureRepository.save(article)
 
         val series = article.series
         val seriesEntity = seriesRepository.findBySeries(series)
         if(seriesEntity == null) {
-            seriesRepository.save(Entity_Series(topic = series, amount = 1))
+            seriesRepository.save(EntitySeries(topic = series, amount = 1))
         }else {
             seriesEntity.amount += 1
             seriesRepository.save(seriesEntity)
@@ -54,18 +123,18 @@ class Service_Literature (
     /**
      * Must provide id
      */
-    fun updateArticle(article : Entity_Literature) {
+    fun updateArticle(article : EntityLiterature) {
         article.id?.let {
-            val entity : Entity_Literature = literatureRepository.getById(it)
+            val entity : EntityLiterature = literatureRepository.getById(it)
 
-            entity.content = article.content
-            entity.img = article.img
-            entity.series = article.series
-            entity.preface = article.preface
-            entity.title = article.title
-            entity.updateOn = article.updateOn
+            if(article.content.isNotEmpty()) entity.content = article.content
+            if(article.img?.isNotEmpty() == true) entity.img = article.img
+            if(article.series.isNotEmpty()) entity.series = article.series
+            if(article.preface.isNotEmpty()) entity.preface = article.preface
+            if(article.title.isNotEmpty()) entity.title = article.title
 
             literatureRepository.save(entity)
         }
     }
 }
+

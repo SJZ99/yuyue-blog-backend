@@ -9,7 +9,7 @@ import kotlin.io.path.exists
 import kotlin.io.path.isReadable
 
 @Service
-class Service_Image {
+class ServiceImage {
 
     companion object {
 //        @Value("multipartFile.image.root")

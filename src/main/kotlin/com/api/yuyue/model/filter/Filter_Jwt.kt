@@ -1,6 +1,6 @@
 package com.api.yuyue.model.filter
 
-import com.api.yuyue.service.Service_User
+import com.api.yuyue.service.ServiceUser
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse
 @Component
 class Filter_Jwt(
     val jwtDecoder: JwtDecoder,
-    val userService: Service_User,
+    val userService: ServiceUser,
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -30,22 +30,28 @@ class Filter_Jwt(
             filterChain.doFilter(request, response)
             return
         }
-
         // get token body
         val token = header.split(" ")[1].trim()
         if(token.isEmpty()) {
             filterChain.doFilter(request, response)
             return
         }
-
         // get token obj
         val jwt: Jwt = jwtDecoder.decode(token)
-
+//        println(jwt.claims)
         val name = jwt.claims["name"].toString()
         val email = jwt.claims["email"].toString()
-        val rolesMap = jwt.claims["realm_access"] as Map<*, *>
-        val roles = rolesMap["roles"] as List<String>
 
+        val clientRolesMap = jwt.claims["resource_access"] as? Map<*, *>
+        val rolesMap = clientRolesMap?.get("yuyue-blog-GvmpapiMKmvnIonNOnva") as? Map<*, *>
+        val roles = rolesMap?.get("roles") as? List<String>
+
+        if(roles == null) {
+            filterChain.doFilter(request, response)
+            return
+        }
+
+//        println(roles)
         val user = userService.saveUser(name, email, roles)
 
         val authentication = UsernamePasswordAuthenticationToken(

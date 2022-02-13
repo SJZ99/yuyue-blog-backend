@@ -1,41 +1,39 @@
 package com.api.yuyue.controller
 
-import com.api.yuyue.model.entity.Entity_Language
-import com.api.yuyue.model.entity.Entity_Program
-import com.api.yuyue.model.entity.Entity_Program_Preview
-import com.api.yuyue.model.exception.ParameterInvalidException
-import com.api.yuyue.service.Service_Image
-import com.api.yuyue.service.Service_Program
+import com.api.yuyue.model.entity.EntityLanguage
+import com.api.yuyue.model.entity.EntityProgram
+import com.api.yuyue.model.entity.EntityProgramPreview
+import com.api.yuyue.service.ServiceImage
+import com.api.yuyue.service.ServiceProgram
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/program")
-class Controller_Program(val programService : Service_Program,
-                         val imgService : Service_Image
+class ControllerProgram(val programService : ServiceProgram,
+                        val imgService : ServiceImage
                          ) {
 
     @GetMapping("/languages")
-    fun getLanguage() : List<Entity_Language> {
+    fun getLanguage() : List<EntityLanguage> {
         return programService.getAllLanguages()
     }
 
     @GetMapping("/previews")
-    fun getAllPreviews() : List<Entity_Program_Preview> {
+    fun getAllPreviews() : List<EntityProgramPreview> {
         return programService.getAllPreviews()
     }
 
     @GetMapping("/previews/{lang}")
     fun getPreview(
         @PathVariable("lang") lang : String
-    ) : List<Entity_Program_Preview> {
+    ) : List<EntityProgramPreview> {
         return programService.getPreviews(lang)
     }
 
     @GetMapping("/articles/{id}")
     fun getArticle(
         @PathVariable("id") id : Int
-    ) : Entity_Program {
+    ) : EntityProgram {
         return programService.getArticleById(id)
     }
 

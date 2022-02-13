@@ -34,6 +34,7 @@ dependencies {
 	implementation("org.springframework.security:spring-security-oauth2-jose:5.6.1")
 	implementation("org.springframework.security:spring-security-oauth2-resource-server:5.6.1")
 	implementation("org.springframework.security:spring-security-jwt:1.1.1.RELEASE")
+	implementation("org.jsoup:jsoup:1.14.3")
 
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

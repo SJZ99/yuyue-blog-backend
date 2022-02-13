@@ -26,8 +26,4 @@ class WebConfig : WebMvcConfigurer {
         return JwtDecoders.fromIssuerLocation<JwtDecoder>("http://localhost:8180/auth/realms/yuyue-blog")
     }
 
-//    @Bean
-//    fun KeycloakConfigResolver(): KeycloakSpringBootConfigResolver {
-//        return KeycloakSpringBootConfigResolver()
-//    }
 }

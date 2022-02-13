@@ -1,8 +1,8 @@
 package com.api.yuyue
 
-import com.api.yuyue.model.entity.Entity_Language
-import com.api.yuyue.model.entity.Entity_Literature
-import com.api.yuyue.service.Service_Program
+import com.api.yuyue.model.entity.EntityLanguage
+import com.api.yuyue.model.entity.EntityLiterature
+import com.api.yuyue.service.ServiceProgram
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
@@ -29,7 +29,7 @@ class YuyueApplicationTests {
 	lateinit var testRestTemplate: TestRestTemplate
 
 	@Autowired
-	lateinit var programService : Service_Program
+	lateinit var programService : ServiceProgram
 
 	@Test
 	fun getImg() {
@@ -59,25 +59,25 @@ class YuyueApplicationTests {
 
 	@Test
 	fun insertProgramEntityToDatabase() {
-		val entity : Entity_Literature = Entity_Literature(1, "Java", "文章標題啊",
+		val entity : EntityLiterature = EntityLiterature(1, "Java", "文章標題啊",
 													"嘿嘿!阿就測試一夏阿", "這是序言欸，酷吧:))))))))))))))))))超酷拉",
 													LocalDate.now(),
 													"city.jpg"
 													)
-		val request : HttpEntity<Entity_Literature>
-				= HttpEntity<Entity_Literature>(entity)
+		val request : HttpEntity<EntityLiterature>
+				= HttpEntity<EntityLiterature>(entity)
 
-		val result = testRestTemplate.postForEntity("/literature/add_article", request, Entity_Literature::class.java)
+		val result = testRestTemplate.postForEntity("/literature/add_article", request, EntityLiterature::class.java)
 
 		assertEquals(HttpStatus.OK, result.statusCode)
 	}
 
 	@Test
 	fun postLanguage() {
-		val request : HttpEntity<Entity_Language>
-				= HttpEntity<Entity_Language>(Entity_Language("Java", "The father of Kotlin"))
+		val request : HttpEntity<EntityLanguage>
+				= HttpEntity<EntityLanguage>(EntityLanguage("Java", "The father of Kotlin"))
 
-		val result = testRestTemplate.postForEntity("/add", request, Entity_Language::class.java)
+		val result = testRestTemplate.postForEntity("/add", request, EntityLanguage::class.java)
 
 		assertEquals(HttpStatus.OK, result.statusCode)
 	}

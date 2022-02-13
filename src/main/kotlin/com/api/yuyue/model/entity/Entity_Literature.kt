@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "t_series")
-class Entity_Series (
+class EntitySeries (
 
     @Id
     var id : Int? = null,
@@ -21,7 +21,7 @@ class Entity_Series (
 
 @Entity
 @Table(name = "t_literature")
-class Entity_Literature (
+class EntityLiterature (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,12 +42,12 @@ class Entity_Literature (
     var updateOn : LocalDate = LocalDate.now(),
 
     @Column(columnDefinition = "TINYTEXT")
-    var img : String = "",
+    var img : String? = "",
 
     var publish: Boolean = false,
 )
 
-interface Entity_Literature_Preview {
+interface EntityLiteraturePreview {
     fun getId() : Int
     fun getImg() : String
     fun getTitle() :String

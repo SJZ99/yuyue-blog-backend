@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 
 @Configuration
 @EnableWebSecurity
-class Config_Security(
+class ConfigSecurity(
     val jwtFilter: Filter_Jwt
 ) : WebSecurityConfigurerAdapter() {
 
@@ -19,7 +19,6 @@ class Config_Security(
 //    }
 
     override fun configure(http: HttpSecurity) {
-//        super.configure(http)
         //The more specific rules need to come first, followed by the more general ones.
         http.cors()
             .and()
@@ -38,21 +37,4 @@ class Config_Security(
             AnonymousAuthenticationFilter::class.java
         )
     }
-
-//    override fun sessionAuthenticationStrategy(): SessionAuthenticationStrategy {
-//        return RegisterSessionAuthenticationStrategy( SessionRegistryImpl() )
-//    }
-
-//    @Autowired
-//    fun configureGlobal(
-//        auth: AuthenticationManagerBuilder
-//    ) {
-//        val keycloakAuthenticationProvider = keycloakAuthenticationProvider()
-//        val mapper = SimpleAuthorityMapper()
-//        mapper.setPrefix("")
-//        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(
-//            mapper
-//        )
-//        auth.authenticationProvider(keycloakAuthenticationProvider)
-//    }
 }
