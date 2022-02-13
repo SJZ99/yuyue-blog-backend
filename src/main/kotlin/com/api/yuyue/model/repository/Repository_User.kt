@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query
 
 interface RepositoryUser : JpaRepository<EntityUser, Int> {
 
-    @Query(value = "select user from Entity_User user where user.email = ?1")
+    @Query(value = "select user from EntityUser user where user.email = ?1")
     fun findByEmail(email : String) : EntityUser?
 
 }
