@@ -26,16 +26,21 @@ class Filter_Jwt(
         filterChain: FilterChain
     ) {
         val header: String? = request.getHeader(HttpHeaders.AUTHORIZATION)
+//        println("JWT Filter")
         if (header == null || header.isEmpty() || !header.startsWith("Bearer ", true)) {
             filterChain.doFilter(request, response)
             return
         }
+//        println("JWT Filter")
+
         // get token body
         val token = header.split(" ")[1].trim()
         if(token.isEmpty()) {
             filterChain.doFilter(request, response)
             return
         }
+//        println("JWT Filter")
+
         // get token obj
         val jwt: Jwt = jwtDecoder.decode(token)
 //        println(jwt.claims)
@@ -50,6 +55,8 @@ class Filter_Jwt(
             filterChain.doFilter(request, response)
             return
         }
+//        println("JWT Filter")
+
 
 //        println(roles)
         val user = userService.saveUser(name, email, roles)

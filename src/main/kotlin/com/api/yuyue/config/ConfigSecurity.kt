@@ -27,6 +27,7 @@ class ConfigSecurity(
             .and()
             .authorizeRequests()
             .antMatchers("/manage/**", "/writer/**").hasAnyAuthority("manager")
+//            .antMatchers("/program/**").hasAnyAuthority("user", "manager")
             .anyRequest().permitAll()
             .and()
             .oauth2ResourceServer()

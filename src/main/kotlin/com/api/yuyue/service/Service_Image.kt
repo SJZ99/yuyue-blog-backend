@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.nio.file.Files
 import java.nio.file.Path
+import java.security.MessageDigest
+import javax.xml.bind.DatatypeConverter
 import kotlin.io.path.exists
 import kotlin.io.path.isReadable
 
@@ -15,10 +17,12 @@ class ServiceImage {
 //        @Value("multipartFile.image.root")
         private val path : String = "C://Users//9987j//Desktop//yuyue-upload//"
         private val root : Path = Path.of(path)
+        private val encoder = MessageDigest.getInstance("MD5")
     }
 
     private fun generateHashName(img : MultipartFile) : String {
-        return img.hashCode().toString()
+        val bytes = encoder.digest(img.bytes)
+        return DatatypeConverter.printHexBinary(bytes)
     }
 
     fun saveImg(subfolder : String, img : MultipartFile) : String? {

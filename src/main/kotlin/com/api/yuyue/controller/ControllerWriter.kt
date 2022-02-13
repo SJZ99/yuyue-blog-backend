@@ -44,7 +44,7 @@ class ControllerWriter(
     }
 
     @PostMapping("/program/add-img")
-    fun addProgramImg(@RequestPart img : MultipartFile) : String{
+    fun addProgramImg(@RequestPart(value = "img") img : MultipartFile) : String{
         val saveActionResult = imgService.saveImg("program", img)
         saveActionResult ?: throw ParameterInvalidException("The uploaded img is empty")
         return saveActionResult
