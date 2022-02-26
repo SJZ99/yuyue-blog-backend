@@ -5,15 +5,19 @@ import com.api.yuyue.model.dto.DtoUpdateArticle
 import com.api.yuyue.model.entity.EntityLanguage
 import com.api.yuyue.model.entity.EntityProgram
 import com.api.yuyue.model.entity.EntityProgramPreview
+import com.api.yuyue.model.entity.EntityProgramTags
 import com.api.yuyue.model.exception.NotFoundException
 import com.api.yuyue.model.exception.ParameterInvalidException
 import com.api.yuyue.model.repository.RepositoryLanguage
 import com.api.yuyue.model.repository.RepositoryProgram
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.stream.Collector
 import java.util.stream.Collectors
+import javax.transaction.Transactional
 
 @Service
 class ServiceProgram(
@@ -51,7 +55,12 @@ class ServiceProgram(
                 setOf()
             }
 
-        val preface = doc.getElementsByTag("preface").first()?.text() ?: ""
+        val prefaceRegex = Regex("<preface>.*</preface>")
+        var preface = prefaceRegex.find(html)?.value ?: ""
+
+        preface = preface
+            .replace("<preface>", "", true)
+            .replace("</preface>", "", true)
 
         val content = html
             .replace("<h1>$title</h1>", "", true)
@@ -128,6 +137,7 @@ class ServiceProgram(
         }
     }
 
+    @Transactional
     fun publish(id: Int) {
         val entity = programRepository.findById(id)
 
@@ -140,10 +150,6 @@ class ServiceProgram(
         return languageRepository.findAll()
     }
 
-    fun getAllPreviews() : List<EntityProgramPreview> {
-        return programRepository.findAllPreviews()
-    }
-
     fun getPreviews(lang : String) : List<EntityProgramPreview> {
         return programRepository.findPreviewByLanguage(lang)
     }
@@ -154,6 +160,24 @@ class ServiceProgram(
 
     fun getArticleById(id : Int) : EntityProgram {
         return programRepository.findById(id).orElseThrow { NotFoundException(notFoundMessage) }
+    }
+
+    fun getAllPreviewsIncludeUnpublished(): List<EntityProgramPreview> {
+        return programRepository.findAllPreviewsIncludeUnpublished()
+    }
+
+    fun getAllTags(): Set<String> {
+        val entitySet = programRepository.findAllTags()
+        val tags = mutableSetOf<String>()
+        entitySet.forEach {
+            entity ->
+            tags.addAll(entity.tags)
+        }
+        return tags
+    }
+
+    fun getTop2Previews(): List<EntityProgramPreview> {
+        return programRepository.findTopPreviews(PageRequest.of(0, 2))
     }
 }
 

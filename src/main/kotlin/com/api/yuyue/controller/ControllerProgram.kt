@@ -3,6 +3,7 @@ package com.api.yuyue.controller
 import com.api.yuyue.model.entity.EntityLanguage
 import com.api.yuyue.model.entity.EntityProgram
 import com.api.yuyue.model.entity.EntityProgramPreview
+import com.api.yuyue.model.entity.EntityProgramTags
 import com.api.yuyue.service.ServiceImage
 import com.api.yuyue.service.ServiceProgram
 import org.springframework.web.bind.annotation.*
@@ -16,11 +17,6 @@ class ControllerProgram(val programService : ServiceProgram,
     @GetMapping("/languages")
     fun getLanguage() : List<EntityLanguage> {
         return programService.getAllLanguages()
-    }
-
-    @GetMapping("/previews")
-    fun getAllPreviews() : List<EntityProgramPreview> {
-        return programService.getAllPreviews()
     }
 
     @GetMapping("/previews/{lang}")
@@ -40,5 +36,15 @@ class ControllerProgram(val programService : ServiceProgram,
     @GetMapping("/img/{fileName}")
     fun getImg(@PathVariable("fileName") fileName : String) : ByteArray {
         return imgService.getImg("program", fileName)
+    }
+
+    @GetMapping("/tags")
+    fun getTags(): Set<String> {
+        return programService.getAllTags()
+    }
+
+    @GetMapping("/top2")
+    fun getTop2(): List<EntityProgramPreview> {
+        return programService.getTop2Previews()
     }
 }

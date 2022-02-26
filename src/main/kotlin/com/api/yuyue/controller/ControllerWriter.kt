@@ -2,6 +2,8 @@ package com.api.yuyue.controller
 
 import com.api.yuyue.model.dto.DtoNewArticle
 import com.api.yuyue.model.dto.DtoUpdateArticle
+import com.api.yuyue.model.entity.EntityLiteraturePreview
+import com.api.yuyue.model.entity.EntityProgramPreview
 import com.api.yuyue.model.exception.ParameterInvalidException
 import com.api.yuyue.service.ServiceImage
 import com.api.yuyue.service.ServiceLiterature
@@ -16,6 +18,16 @@ class ControllerWriter(
     val literatureService : ServiceLiterature,
     val imgService : ServiceImage,
 ) {
+
+    @GetMapping("/program/previews")
+    fun getProgramPreviews(): List<EntityProgramPreview> {
+        return programService.getAllPreviewsIncludeUnpublished()
+    }
+
+    @GetMapping("/literature/previews")
+    fun getLiteraturePreviews(): List<EntityLiteraturePreview> {
+        return literatureService.getAllPreviewsIncludeUnpublished()
+    }
 
     @PutMapping("/program/publish/{id}")
     fun publishProgram(

@@ -11,7 +11,9 @@ import com.api.yuyue.model.repository.RepositoryLiterature
 import com.api.yuyue.model.repository.RepositorySeries
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class ServiceLiterature (
@@ -35,7 +37,12 @@ class ServiceLiterature (
             ?: doc.getElementsByTag("h2").first()?.text()
             ?: throw ParameterInvalidException("Article's title not found, check the article has <h1> or <h2>")
 
-        val preface = doc.getElementsByTag("preface").first()?.text() ?: ""
+        val prefaceRegex = Regex("<preface>.*</preface>")
+        var preface = prefaceRegex.find(html)?.value ?: ""
+
+        preface = preface
+            .replace("<preface>", "", true)
+            .replace("</preface>", "", true)
 
         val content = html
             .replace("<h1>$title</h1>", "", true)
@@ -80,6 +87,7 @@ class ServiceLiterature (
         )
     }
 
+    @Transactional
     fun publish(id: Int) {
         val entity = literatureRepository.findById(id)
         if(entity.isPresent) {
@@ -91,12 +99,9 @@ class ServiceLiterature (
         return seriesRepository.findAll()
     }
 
-    fun getAllPreviews() : List<EntityLiteraturePreview> {
-        return literatureRepository.findAllPreviews()
-    }
-
-    fun getPreviews(id : Int) : List<EntityLiteraturePreview>{
-        return literatureRepository.findPreviewBySeries(id)
+    fun getPreviews(seriesId : Int) : List<EntityLiteraturePreview>{
+        val series = seriesRepository.findById(seriesId) ?: throw NotFoundException("Series not found")
+        return literatureRepository.findPreviewBySeries(series.topic)
     }
 
     fun getArticleByTitle(title : String) : EntityLiterature {
@@ -135,6 +140,14 @@ class ServiceLiterature (
 
             literatureRepository.save(entity)
         }
+    }
+
+    fun getAllPreviewsIncludeUnpublished(): List<EntityLiteraturePreview> {
+        return literatureRepository.findAllPreviewsIncludeUnpublished()
+    }
+
+    fun getTop3Series(): List<EntitySeries> {
+        return seriesRepository.findTopSeries(PageRequest.of(0, 3))
     }
 }
 

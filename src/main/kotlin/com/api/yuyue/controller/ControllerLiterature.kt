@@ -19,9 +19,9 @@ class ControllerLiterature(val literatureService : ServiceLiterature,
         return literatureService.getAllSeries()
     }
 
-    @GetMapping("/previews")
-    fun getAllPreviews() : List<EntityLiteraturePreview> {
-        return literatureService.getAllPreviews()
+    @GetMapping("/series/top3")
+    fun getTop3Series(): List<EntitySeries> {
+        return literatureService.getTop3Series()
     }
 
     @GetMapping("/previews/{seriesId}")

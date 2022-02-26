@@ -52,4 +52,9 @@ interface EntityProgramPreview {
     val title :String
     val preface : String
     val updateOn : LocalDate
+    val isPublish: Boolean
+}
+
+interface EntityProgramTags {
+    val tags: Set<String>
 }

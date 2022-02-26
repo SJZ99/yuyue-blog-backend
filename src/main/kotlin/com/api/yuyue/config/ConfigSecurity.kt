@@ -26,7 +26,7 @@ class ConfigSecurity(
             .sessionManagement().enableSessionUrlRewriting(false)
             .and()
             .authorizeRequests()
-            .antMatchers("/manage/**", "/writer/**").hasAnyAuthority("manager")
+            .antMatchers("/writer/**").hasAnyAuthority("writer")
 //            .antMatchers("/program/**").hasAnyAuthority("user", "manager")
             .anyRequest().permitAll()
             .and()
