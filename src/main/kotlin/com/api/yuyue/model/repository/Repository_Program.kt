@@ -13,6 +13,8 @@ interface RepositoryLanguage : JpaRepository<EntityLanguage, String> {
 
     @Query(value = "select l from EntityLanguage l where l.language = ?1")
     fun findByLanguage(language: String): EntityLanguage?
+
+
 }
 
 interface RepositoryProgram : JpaRepository<EntityProgram, Int> {

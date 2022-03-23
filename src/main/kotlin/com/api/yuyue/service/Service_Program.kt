@@ -2,10 +2,7 @@ package com.api.yuyue.service
 
 import com.api.yuyue.model.dto.DtoNewArticle
 import com.api.yuyue.model.dto.DtoUpdateArticle
-import com.api.yuyue.model.entity.EntityLanguage
-import com.api.yuyue.model.entity.EntityProgram
-import com.api.yuyue.model.entity.EntityProgramPreview
-import com.api.yuyue.model.entity.EntityProgramTags
+import com.api.yuyue.model.entity.*
 import com.api.yuyue.model.exception.NotFoundException
 import com.api.yuyue.model.exception.ParameterInvalidException
 import com.api.yuyue.model.repository.RepositoryLanguage
@@ -33,7 +30,7 @@ class ServiceProgram(
         val title: String,
         val preface: String,
         val content: String,
-        val tags: Set<String>
+        val tags: Set<EntityTag>
     )
 
     private fun analysisDom(html: String): PartialEntity {
@@ -43,7 +40,7 @@ class ServiceProgram(
             ?: doc.getElementsByTag("h2").first()?.text()
             ?: throw ParameterInvalidException("Article's title not found, check the article has <h1> or <h2>")
 
-        val tags: Set<String> =
+        val tags: Set<EntityTag> =
             if (title.contains("【") && title.contains("】")) {
                 title
                     .split("】")[0]
@@ -51,6 +48,8 @@ class ServiceProgram(
                     .split(" ")
                     .stream()
                     .collect(Collectors.toSet())
+                    .map { tagTitle -> EntityTag(tagTitle) }
+                    .toSet()
             } else {
                 setOf()
             }
@@ -121,17 +120,17 @@ class ServiceProgram(
 
     fun updateArticle(article : EntityProgram) {
         article.id?.let {
-            val entity : EntityProgram = programRepository.findById(it).get()
+            val entity: EntityProgram = programRepository.findById(it).get()
 
-            if(article.content.isNotEmpty())                      entity.content = article.content
+            if (article.content.isNotEmpty()) entity.content = article.content
 
-            if(article.img?.isNotEmpty() == true)                 entity.img = article.img
+            if (article.img?.isNotEmpty() == true) entity.img = article.img
 
-            if(article.tags.isNotEmpty())                         entity.tags = article.tags
+            if (article.tags.isNotEmpty()) entity.tags = article.tags
 
-            if(article.preface.isNotEmpty())                      entity.preface = article.preface
+            if (article.preface.isNotEmpty()) entity.preface = article.preface
 
-            if(article.title.isNotEmpty())                        entity.title = article.title
+            if (article.title.isNotEmpty()) entity.title = article.title
 
             programRepository.save(entity)
         }
@@ -178,6 +177,14 @@ class ServiceProgram(
 
     fun getTop2Previews(): List<EntityProgramPreview> {
         return programRepository.findTopPreviews(PageRequest.of(0, 2))
+    }
+
+    fun saveLanguage(languageName: String) {
+        saveLanguage(EntityLanguage(languageName))
+    }
+
+    fun saveLanguage(lang: EntityLanguage) {
+        languageRepository.save(lang)
     }
 }
 

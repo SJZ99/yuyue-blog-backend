@@ -37,23 +37,19 @@ class EntityProgram (
 
     var updateOn : LocalDate = LocalDate.now(),
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    var tags : Set<String> = setOf(),
-
     @Column(columnDefinition = "TINYTEXT")
     var img : String?,
 
     var publish: Boolean = false,
-)
 
-interface EntityProgramPreview {
-    val id : Int?
-    val img : String
-    val title :String
-    val preface : String
-    val updateOn : LocalDate
-    val isPublish: Boolean
-}
+    @ManyToMany
+    @JoinTable(
+        name = "t_tag",
+        joinColumns = [JoinColumn(name = "article_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "tags_id", referencedColumnName = "name")]
+    )
+    var tags: Set<EntityTag> = setOf()
+)
 
 interface EntityProgramTags {
     val tags: Set<String>

@@ -1,6 +1,6 @@
 package com.api.yuyue.model.filter
 
-import com.api.yuyue.service.ServiceUser
+import com.api.yuyue.model.entity.EntityUser
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse
 @Component
 class Filter_Jwt(
     val jwtDecoder: JwtDecoder,
-    val userService: ServiceUser,
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -59,7 +58,7 @@ class Filter_Jwt(
 
 
 //        println(roles)
-        val user = userService.saveUser(name, email, roles)
+        val user = EntityUser(name, email, roles)
 
         val authentication = UsernamePasswordAuthenticationToken(
             user, null,

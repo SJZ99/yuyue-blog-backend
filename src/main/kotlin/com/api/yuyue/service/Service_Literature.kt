@@ -149,5 +149,9 @@ class ServiceLiterature (
     fun getTop3Series(): List<EntitySeries> {
         return seriesRepository.findTopSeries(PageRequest.of(0, 3))
     }
+
+    fun saveSeries(series: EntitySeries) {
+        seriesRepository.save(series)
+    }
 }
 

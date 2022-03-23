@@ -47,11 +47,3 @@ class EntityLiterature (
     var publish: Boolean = false,
 )
 
-interface EntityLiteraturePreview {
-    fun getId(): Int
-    fun getImg(): String
-    fun getTitle():String
-    fun getPreface(): String
-    fun getUpdateOn(): LocalDate
-    fun getPublish(): Boolean
-}
