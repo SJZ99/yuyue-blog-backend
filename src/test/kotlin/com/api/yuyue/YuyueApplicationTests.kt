@@ -25,68 +25,68 @@ import javax.net.ssl.SSLContext
 @SpringBootTest(classes = [YuyueApplication::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class YuyueApplicationTests {
 
-	@Autowired
-	lateinit var testRestTemplate: TestRestTemplate
+//	@Autowired
+//	lateinit var testRestTemplate: TestRestTemplate
+//
+//	@Autowired
+//	lateinit var programService : ServiceProgram
+//
+//	@Test
+//	fun getImg() {
+//		val result = testRestTemplate.getForEntity("/program/img/city.jpg", String::class.java)
+//
+//		println(result.body)
+//		assertEquals(HttpStatus.OK, result.statusCode)
+//		assertNotNull(result.body)
+//	}
 
-	@Autowired
-	lateinit var programService : ServiceProgram
+//	@Test
+//	fun addImage() {
+//		val img = Files.readAllBytes(Path.of("C://Users//9987j//Desktop//yuyue-blog//src//assets//cyberpunk//city.jpg"))
+//
+//		val header : HttpHeaders = HttpHeaders()
+//		header.contentType = MediaType.MULTIPART_FORM_DATA
+//
+//
+//		val request : HttpEntity<ByteArray>
+//				= HttpEntity<ByteArray>(img, header)
+//
+//		val result = testRestTemplate.postForEntity("/program/add_img", request, ByteArray::class.java)
+//
+//		assertEquals(HttpStatus.OK, result.statusCode)
+//		assertNotNull(result.body)
+//	}
 
-	@Test
-	fun getImg() {
-		val result = testRestTemplate.getForEntity("/program/img/city.jpg", String::class.java)
+//	@Test
+//	fun insertProgramEntityToDatabase() {
+//		val entity : EntityLiterature = EntityLiterature(1, "Java", "文章標題啊",
+//													"嘿嘿!阿就測試一夏阿", "這是序言欸，酷吧:))))))))))))))))))超酷拉",
+//													LocalDate.now(),
+//													"city.jpg"
+//													)
+//		val request : HttpEntity<EntityLiterature>
+//				= HttpEntity<EntityLiterature>(entity)
+//
+//		val result = testRestTemplate.postForEntity("/literature/add_article", request, EntityLiterature::class.java)
+//
+//		assertEquals(HttpStatus.OK, result.statusCode)
+//	}
 
-		println(result.body)
-		assertEquals(HttpStatus.OK, result.statusCode)
-		assertNotNull(result.body)
-	}
-
-	@Test
-	fun addImage() {
-		val img = Files.readAllBytes(Path.of("C://Users//9987j//Desktop//yuyue-blog//src//assets//cyberpunk//city.jpg"))
-
-		val header : HttpHeaders = HttpHeaders()
-		header.contentType = MediaType.MULTIPART_FORM_DATA
-
-
-		val request : HttpEntity<ByteArray>
-				= HttpEntity<ByteArray>(img, header)
-
-		val result = testRestTemplate.postForEntity("/program/add_img", request, ByteArray::class.java)
-
-		assertEquals(HttpStatus.OK, result.statusCode)
-		assertNotNull(result.body)
-	}
-
-	@Test
-	fun insertProgramEntityToDatabase() {
-		val entity : EntityLiterature = EntityLiterature(1, "Java", "文章標題啊",
-													"嘿嘿!阿就測試一夏阿", "這是序言欸，酷吧:))))))))))))))))))超酷拉",
-													LocalDate.now(),
-													"city.jpg"
-													)
-		val request : HttpEntity<EntityLiterature>
-				= HttpEntity<EntityLiterature>(entity)
-
-		val result = testRestTemplate.postForEntity("/literature/add_article", request, EntityLiterature::class.java)
-
-		assertEquals(HttpStatus.OK, result.statusCode)
-	}
-
-	@Test
-	fun postLanguage() {
-		val request : HttpEntity<EntityLanguage>
-				= HttpEntity<EntityLanguage>(EntityLanguage("Java", "The father of Kotlin"))
-
-		val result = testRestTemplate.postForEntity("/add", request, EntityLanguage::class.java)
-
-		assertEquals(HttpStatus.OK, result.statusCode)
-	}
-
-	@Test
-	fun getAllLanguage() {
-		val result = testRestTemplate.getForEntity("/language", String::class.java)
-
-		assertEquals(HttpStatus.OK, result.statusCode)
-		assertNotNull(result?.body)
-	}
+//	@Test
+//	fun postLanguage() {
+//		val request : HttpEntity<EntityLanguage>
+//				= HttpEntity<EntityLanguage>(EntityLanguage("Java", "The father of Kotlin"))
+//
+//		val result = testRestTemplate.postForEntity("/add", request, EntityLanguage::class.java)
+//
+//		assertEquals(HttpStatus.OK, result.statusCode)
+//	}
+//
+//	@Test
+//	fun getAllLanguage() {
+//		val result = testRestTemplate.getForEntity("/language", String::class.java)
+//
+//		assertEquals(HttpStatus.OK, result.statusCode)
+//		assertNotNull(result?.body)
+//	}
 }
