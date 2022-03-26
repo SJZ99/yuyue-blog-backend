@@ -30,7 +30,7 @@ class ServiceProgram(
         val title: String,
         val preface: String,
         val content: String,
-        val tags: Set<EntityTag>
+        val tags: Set<String>
     )
 
     private fun analysisDom(html: String): PartialEntity {
@@ -40,7 +40,7 @@ class ServiceProgram(
             ?: doc.getElementsByTag("h2").first()?.text()
             ?: throw ParameterInvalidException("Article's title not found, check the article has <h1> or <h2>")
 
-        val tags: Set<EntityTag> =
+        val tags: Set<String> =
             if (title.contains("【") && title.contains("】")) {
                 title
                     .split("】")[0]
@@ -48,8 +48,6 @@ class ServiceProgram(
                     .split(" ")
                     .stream()
                     .collect(Collectors.toSet())
-                    .map { tagTitle -> EntityTag(tagTitle) }
-                    .toSet()
             } else {
                 setOf()
             }

@@ -41,6 +41,9 @@ class EntityProgram (
     var img : String?,
 
     var publish: Boolean = false,
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    var tags : Set<String> = setOf(),
 )
 
 interface EntityProgramTags {
