@@ -71,7 +71,7 @@ class ServiceLiterature (
 
     fun dtoToEntity(dto: DtoUpdateArticle): EntityLiterature? {
         val ( id: Int, fullContent: String?, img: String?) = dto
-        var partialEntity: ServiceLiterature.PartialEntity? = null
+        var partialEntity: PartialEntity? = null
 
         if(fullContent == null && img == null) return null
 

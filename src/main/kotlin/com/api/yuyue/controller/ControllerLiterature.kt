@@ -26,7 +26,7 @@ class ControllerLiterature(val literatureService : ServiceLiterature,
 
     @GetMapping("/previews/{seriesId}")
     fun getPreview(
-        @PathVariable("seriesId") seriesId : Int
+        @PathVariable("seriesId") seriesId: Int
     ) : List<EntityLiteraturePreview> {
        return literatureService.getPreviews(seriesId)
     }

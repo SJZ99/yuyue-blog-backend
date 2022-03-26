@@ -41,14 +41,6 @@ class EntityProgram (
     var img : String?,
 
     var publish: Boolean = false,
-
-    @ManyToMany
-    @JoinTable(
-        name = "t_tag",
-        joinColumns = [JoinColumn(name = "article_id", referencedColumnName = "id")],
-        inverseJoinColumns = [JoinColumn(name = "tags_id", referencedColumnName = "name")]
-    )
-    var tags: Set<EntityTag> = setOf()
 )
 
 interface EntityProgramTags {
