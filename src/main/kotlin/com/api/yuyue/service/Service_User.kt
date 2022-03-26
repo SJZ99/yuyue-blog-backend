@@ -15,9 +15,9 @@ class ServiceUser {
      * Try use email to find user, if not found will auto save it to repository.
      *
      */
-    fun saveUser(_name : String,
-                   _email : String,
-                   _roles : List<String>
+    fun saveUser(_name: String,
+                   _email: String,
+                   _roles: List<String>
     ) : EntityUser {
 
         val entity : EntityUser = EntityUser(email = _email, name = _name, roles = _roles)
