@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 class ServiceUser {
 
     @Autowired
-    private lateinit var userRepository : RepositoryUser
+    private lateinit var userRepository: RepositoryUser
 
     /**
      * Try use email to find user, if not found will auto save it to repository.
@@ -20,7 +20,7 @@ class ServiceUser {
                    _roles: List<String>
     ) : EntityUser {
 
-        val entity : EntityUser = EntityUser(email = _email, name = _name, roles = _roles)
+        val entity: EntityUser = EntityUser(email = _email, name = _name, roles = _roles)
 
         userRepository.save(entity)
 
