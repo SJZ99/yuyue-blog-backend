@@ -52,3 +52,13 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+tasks.jar {
+	manifest {
+		attributes["Main-Class"] = "YuyueApplicationKt"
+	}
+	configurations["compileClasspath"].forEach { file: File ->
+		from(zipTree(file.absoluteFile))
+	}
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
